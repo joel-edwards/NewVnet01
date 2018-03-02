@@ -1,0 +1,63 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnetName": {
+            "type": "string",
+            "defaultValue": "EUVNet2",
+            "metadata": {
+                "description": "VNet name"
+            }
+        },
+        
+        "subnet1Prefix": {
+            "type": "string",
+            "defaultValue": "192.168.11.0/25",
+            "metadata": {
+                "description": "Subnet 1 Prefix"
+            }
+        },
+		"vnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "192.168.11.0/24",
+            "metadata": {
+                "description": "Address prefix"
+            }
+        },
+        "subnet1Name": {
+            "type": "string",
+            "defaultValue": "Production2",
+            "metadata": {
+                "description": "Subnet 1 Name"
+            }
+        }
+       
+    },
+    "variables": {
+        "apiVersion": "2015-06-15"
+    },
+    "resources": [
+        {
+            "apiVersion": "[variables('apiVersion')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('vnetName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('vnetAddressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnet1Prefix')]"
+                        }
+                    }
+                    
+                ]
+            }
+        }
+    ]
+}
